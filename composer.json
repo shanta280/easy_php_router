@@ -14,7 +14,6 @@
         "easy-routing",
         "easy_router"
     ],
-    "type": "library",
     "license": "MIT",
       "support": {
         "source": "https://github.com/shanta280/easy_php_router/issues"
