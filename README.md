@@ -9,6 +9,11 @@ Easy to get Started
 Easy to modify
 
 
+# How to install
+```
+    composer require shanta280/easy_php_router
+
+```
 
 
 
@@ -18,10 +23,17 @@ Easy to modify
 
 $app->get('/', '')
 $app->post('/', '')
-$app->put('/page/{slug}/update', '')
+$app->put('/page/{slug}/update', function($slug) {
+    // do someting with slug
+});
 $app->delete('/user/{id}', '')
 $app->route('GET/POST/PUT/DELETE', '/', '')
 
+to configure 404 (Page Not Found)
+
+$app->get("*", function() {
+    // page not found
+});
 
 ```
 
