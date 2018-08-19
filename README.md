@@ -1,5 +1,5 @@
 # easy_php_router
-Easy, simple, fast PHP Router (PHP Routing System) (Single Class)
+Lightweight, Easy, simple, fast PHP Router (PHP Routing System) (Single Class)
 
 Single Class Route
 Easy to use Routing system for PHP
@@ -16,77 +16,84 @@ Easy to modify
 ```
 
 
-
-# Supported Methods 
-```
-// dynamic url with {someting}
-
-$app->get('/', '')
-$app->post('/', '')
-$app->put('/page/{slug}/update', function($slug) {
-    // do someting with slug
-});
-$app->delete('/user/{id}', '')
-$app->route('GET/POST/PUT/DELETE', '/', '')
-
-to configure 404 (Page Not Found)
-
-$app->get("*", function() {
-    // page not found
-});
-
-```
-
-
-### How To Use Example 1 (Method Chaining)
-
+# Basic Example
 ```
 <?php
 
 require_once __DIR__.'/../vendor/autoload.php';
-
-use Shantanu\EasyRouter\EasyRouter;
-
-EasyRouter::start()
-    ->get('/', function() {
-    
-        echo "Hello Home Page";
-    })
-    ->get('/about', function() {
-        echo "About EasyPhpRouter";
-    })
-    ->run();
-
-```
+// or 
+// require_once path_to_file/EasyRouter.php
 
 
-### How To Use Example 2
-```
-<?php
+$r = new Shantanu\EasyRouter();
 
-require_once __DIR__.'/../vendor/autoload.php';
-
-use Shantanu\EasyRouter\EasyRouter;
-
-$app = new EasyRouter();
-
-// Set Your Routes the way you want
-
-// 
-
-$app->get('/', function() {
-    echo "Hello Home Page";
+$r->get("/", function() {
+    echo "Home page";
 });
-$app->post("/login", ["ClassName", "loginFunction"]);
 
-// dynamic route 1
-$app->get('/about/{username}', "\Namespace\Controller\AboutController::about");
-// dynamic route 2
-$app->get('/page/{someting}/anyting', "\Namespace\Controller\AboutController::about");
+$r->get("/about/{name}", function($name="") {
+    echo "About {$name}";
+});
 
-$app->route("GET", "/someting", ["\Namespace\Controller\SomeController", "some_method"]);
+// good this page will be shown 
+// when url does not maych any thing
+// good for showing 404
+$r->get("/{any}", function($any='') {
+    echo $any;
+});
 
-$app->run();// this line is important
+$r->get("/contact", function() {
+    echo "Contact Page";
+});
+
+$r->get("/services", function() {
+    echo "Services Page";
+});
+
+$r->run();// this line is important, it starts the routing process
+
+/*
+* Now we will be able to access url like
+* http://example.com/index.php/about/shantanu
+* http://example.com/index.php/service
+* 
+* to remove the index.php from the url we can use .htaccess file
+* see example file here
+* [https://gist.github.com/shanta280/9fad00bd320f9c9f14416adf10985cb1](https://gist.github.com/shanta280/9fad00bd320f9c9f14416adf10985cb1)
+*/
+
+```
+
+
+### Supported Methods
+
+```
+$r->get("path", "callback")
+$r->post("path", "callback")
+$r->put("path", "callback")
+$r->delete("path", "callback")
+// another special method
+$r->route("method", "path", "callback")
+```
+
+
+### Supported Callback methods
+```
+// Closure method
+$r->get("/", function() {
+    // do something here
+});
+
+// namespace method
+// this will call the index function of MainController
+$r->get("/", "\Namespace\Controller\MainController::index");
+
+// class method
+// this will call the about method of MyClass
+$r->get("/about", ["MyClass", "about"]);
+
+// we can also use someting like below
+$r->route("GET", "/someting", ["\Namespace\Controller\SomeController", "some_method"]);
 
 ```
 

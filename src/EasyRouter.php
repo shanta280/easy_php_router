@@ -1,58 +1,50 @@
 <?php 
-namespace Shantanu\EasyRouter;
+namespace Shantanu;
 
 class EasyRouter {
-    
-    protected $routes = [];
-    protected $paths = [];
-    protected $uri = [];
-    protected $requestMethod = "GET"; // default
+    private $routes = [];
+    private $paths = [];
+    private $uri = [];
+    private $requestMethod = "GET"; // default
     
     public function __construct() {        
-        // setup
-        // 
+        // setting data here
+        // will return 
         // [ path => [], query => []]
         $this->uri = parse_url($_SERVER['REQUEST_URI']);
 
         $this->requestMethod = $_SERVER['REQUEST_METHOD'];
-        
     }
     
-    public static function start() {
-        // To Enable Chaining 
-        // example
-        // Router::start()->get('/', 'example')->run();
-        // though useless in this case
-        return new EasyRouter();
-    }
-    
+   
    // GET routes
    public function get($path, $callback) {
         $this->route('GET', $path, $callback);
         return $this;
-   }
-   // POST route
-   public function post($path, $callback) {
+    }
+    // POST route
+    public function post($path, $callback) {
         $this->route('POST', $path, $callback);
         return $this;
-   }
-   
-   // PUT route
-   public function put($path, $callback) {
+    }
+
+    // PUT route
+    public function put($path, $callback) {
         $this->route('PUT', $path, $callback);
         
         return $this;
-   }
-   
-   // DELETE route
-   public function delete($path, $callback) {
+    }
+
+    // DELETE route
+    public function delete($path, $callback) {
         $this->route('DELETE', $path, $callback);
         
         return $this;
-   }
-    
-   
-   // sets the route
+    }
+
+    // this is the main function
+    // it sets the routes for comparision later on
+
    public function route($method, $path, $callback) {
         $obj = new \stdClass();
         $obj->callback = $callback;
@@ -61,27 +53,16 @@ class EasyRouter {
         $this->routes[$path] = $obj;
         
         return $this;
-   } 
-   
-   public function show404() {
-        // * 
-        if(array_key_exists('*', $this->routes)) {
-            $this->loadPath("*", []);
-        } else {
-            http_response_code(404);
-            die("404! PAGE NOT FOUND");
-        }
-   }
-    
-    
-    // #####################################################   
+    } 
+   // #####################################################   
    // This function starts the routing process
-   //
+   // 
    public function run() {
-   
-        
+        // extracts the path from uri
         $this->paths = explode("/", urldecode(trim($this->uri['path'], '/')));
         
+        // if the size of the path 
+        // is == 1 ([index].php) it means we have to load to home page
         if(sizeof($this->paths) == 1) {
             // / home page
             $this->loadPath('/');
@@ -114,7 +95,6 @@ class EasyRouter {
                 "/".implode("/", $path), // parsed uri
                 $eligibleRoutes// routes
             );
-            
            // echo '*PARAM = '.$param.'<hr>';
             if(sizeof($path) == 0) {
                 $tmp = "/".$param;
@@ -183,14 +163,14 @@ class EasyRouter {
         return substr($str, strlen($str)-1, $length) === $key;
    }
    
-   // checkes the request method etc
+   // Calls the actual function 
    private function loadPath($path, $params = []) {
         // checks if the route exists in our routes
-
         if(array_key_exists($path, $this->routes)) {
+            
             // the route
             $route = $this->routes[$path];
-            
+
             // check the request method
             if($route->method !== $this->requestMethod) {
                 // method not allowed
@@ -198,7 +178,7 @@ class EasyRouter {
                 die('METHOD Not Allowed');
             }
             
-            //echo gettype($route->callback).'<br>';
+
             switch(gettype($route->callback)) {
                 
                 case 'object':
@@ -215,21 +195,22 @@ class EasyRouter {
                     $this->callFunction([new $route->callback[0](), $route->callback[1]], $params);
                     break;
                 default:
-                    $this->show404();
+                    die("Invalid Argument Specified for: ".$path);
             }
             
         } else {
-            $this->show404();
+            die('PAGE NOT FOUND');
         }
         
    }
-   
-   // Calls the actual function 
+
+    // Calls the actual function 
     private function callFunction($method, $params) {
-        // do someting more 
+    // do someting more 
         // 
         call_user_func_array($method, $params);
         
         // do something more here
     }
+
 }

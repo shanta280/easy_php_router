@@ -2,6 +2,7 @@
     "name": "shanta280/easy_php_router",
     "description": "Easy, simple, fast PHP Router (Routing System)",
     "keywords": [
+        "lightweight",
         "router",
         "routing",
         "route",
@@ -30,7 +31,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Shantanu\\EasyRouter\\": "src/"
+            "Shantanu\\": "src/"
         }
     }
 }
