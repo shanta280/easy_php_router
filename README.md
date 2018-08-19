@@ -51,9 +51,8 @@ $r->get("/services", function() {
 });
 
 $r->run();// this line is important, it starts the routing process
+```
 
-//////
-*
 * Now we will be able to access url like
 * http://example.com/index.php/about/shantanu
 * http://example.com/index.php/service
@@ -61,9 +60,6 @@ $r->run();// this line is important, it starts the routing process
 * to remove the index.php from the url we can use .htaccess file
 * see example file here
 * https://gist.github.com/shanta280/9fad00bd320f9c9f14416adf10985cb1
-*
-
-```
 
 
 ### Supported Methods
