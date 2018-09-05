@@ -91,7 +91,7 @@ $r->set404("callback")
 $r->get("/", function() {
     // do something here
 });
-
+ 
 // namespace method
 // this will call the index function of MainController
 $r->get("/", "\Namespace\Controller\MainController::index");
