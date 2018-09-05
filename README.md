@@ -80,6 +80,8 @@ $r->put("path", "callback")
 $r->delete("path", "callback")
 // another special method
 $r->route("method", "path", "callback")
+$r->any("path", "callback")
+$r->set404("callback")
 ```
 
 
