@@ -42,6 +42,12 @@ class EasyRouter {
         return $this;
     }
 
+    // this function will support any method
+    // get, post, put, etc
+    public function any($path, $callback) {
+        $this->route('ANY', $path, $callback);
+        return $this;
+    }
     // this is the main function
     // it sets the routes for comparision later on
 
@@ -173,9 +179,11 @@ class EasyRouter {
 
             // check the request method
             if($route->method !== $this->requestMethod) {
-                // method not allowed
-                http_response_code(405);
-                die('METHOD Not Allowed');
+                if($route->method !=='ANY') {
+                    // method not allowed
+                    http_response_code(405);
+                    die('METHOD Not Allowed');
+                }
             }
             
 

@@ -50,6 +50,10 @@ $r->get("/services", function() {
     echo "Services Page";
 });
 
+$r->any("/anymethod", function() {
+    // we can call this route with any method
+});
+
 $r->run();// this line is important, it starts the routing process
 ```
 

@@ -15,8 +15,8 @@ $r->get("/about/{name}", function($name="") {
 // good this page will be shown 
 // when url does not maych any thing
 // good for showing 404
-$r->get("/{any}", function($any='') {
-    echo $any;
+$r->any("/any", function() {
+    echo "Any Route";
 });
 $r->get("/contact", function() {
     echo "Contact Page";
