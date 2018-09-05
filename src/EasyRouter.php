@@ -6,7 +6,8 @@ class EasyRouter {
     private $paths = [];
     private $uri = [];
     private $requestMethod = "GET"; // default
-    
+    private $page404 = null;
+
     public function __construct() {        
         // setting data here
         // will return 
@@ -60,6 +61,10 @@ class EasyRouter {
         
         return $this;
     } 
+
+    public function set404($callback) {
+        $this->page404 = $callback;
+    }
    // #####################################################   
    // This function starts the routing process
    // 
@@ -207,7 +212,7 @@ class EasyRouter {
             }
             
         } else {
-            die('PAGE NOT FOUND');
+            $this->show404();
         }
         
    }
@@ -219,6 +224,15 @@ class EasyRouter {
         call_user_func_array($method, $params);
         
         // do something more here
+    }
+
+    public function show404() {
+        http_response_code(404);
+        if($this->page404) {
+            call_user_func($this->page404);
+        } else {
+            die('PAGE NOT FOUND');
+        }
     }
 
 }

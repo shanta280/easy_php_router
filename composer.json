@@ -20,7 +20,8 @@
         "source": "https://github.com/shanta280/easy_php_router/issues"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.3"
+        "phpunit/phpunit": "^7.3",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "authors": [
         {

@@ -54,6 +54,11 @@ $r->any("/anymethod", function() {
     // we can call this route with any method
 });
 
+// to set custom 404 page
+$r->set404(function() {
+    die("Custom 404 page");
+});
+
 $r->run();// this line is important, it starts the routing process
 ```
 

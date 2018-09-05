@@ -4,6 +4,10 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 $r = new Shantanu\EasyRouter();
 
+$r->set404(function() {
+    die("Custom 404 page");
+});
+
 $r->get("/", function() {
     echo "Home page";
 });
@@ -18,7 +22,7 @@ $r->get("/about/{name}", function($name="") {
 $r->any("/any", function() {
     echo "Any Route";
 });
-$r->get("/contact", function() {
+$r->post("/contact", function() {
     echo "Contact Page";
 });
 
