@@ -200,7 +200,10 @@ class EasyRouter {
                     break;
                 case 'string':
                     // namespace (probably)
-                    $this->callFunction($route->callback, $params);
+                    // temporary fix
+                    $tmp = explode('@', $route->callback);
+                    // $this->callFunction($route->callback, $params);
+                    $this->callFunction([new $tmp[0](), $tmp[1]], $params);
                     break;
                 case 'array': 
                     // class like
